@@ -1,7 +1,42 @@
+<h5><%= link_to "Home", root_path %></h5>
 <h1><%= @article.title %></h1>
 
 <p><%= @article.body %></p>
 
 <ul>
+  <%# do bin/rails routes - edit_article_path corresponds to the path for GET call for edit_article %>
   <li><%= link_to "Edit", edit_article_path(@article) %></li>
+  <li><%= link_to "Delete", article_path(@article),
+		  # calls the DELETE method, uses unobtrusive javascript (UJS) to have a popup asking for confirmation
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
 </ul>
+
+<h2>Comments</h2>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+<% end %>
+
+<h2>Add a comment:</h2>
+<%# build a nested route like /article/1/comments %>
+<%= form_with model: [ @article, @article.comments.build ] do |form| %>
+  <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
