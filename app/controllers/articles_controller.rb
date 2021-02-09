@@ -1,4 +1,8 @@
 class ArticlesController < ApplicationController
+
+  # basic authentication, do for all methods except index and show
+  http_basic_authenticate_with name: "randomUser", password: "randomPassword", except: [:index, :show]
+
   def index
     @articles = Article.all
   end
@@ -55,6 +59,7 @@ class ArticlesController < ApplicationController
     def article_params
       # mandatory for the form data captured in the Hash "params" to have a field article, which in turn should have title and body only
       # these are also accessible directly using params[:article][:title] and params[:article][:body]
-      params.require(:article).permit(:title, :body)
+      # "bin/rails generate migration AddStatusToArticles status:string" => create this migration to later add a new field to an existing model
+      params.require(:article).permit(:title, :body, :status)
     end
 end

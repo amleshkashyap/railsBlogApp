@@ -12,31 +12,13 @@
                   data: { confirm: "Are you sure?" } %></li>
 </ul>
 
-<h2>Comments</h2>
-<% @article.comments.each do |comment| %>
-  <p>
-    <strong>Commenter:</strong>
-    <%= comment.commenter %>
-  </p>
+<%# render the partial collection of comments in _comment.html.erb once for each comment in article.comments instead of looping through the article.comments
+    render method assigns each comment to a local variable, accessible using the partial file name, eg, comment, which is used in the partial to show 
+    similarly, we can render partial forms as done below with Add Comments in _form.html.erb %>
+<%# being an instance variable, @article object is available to all partials rendered in the view %>
 
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.body %>
-  </p>
-<% end %>
+<h2>Comments</h2>
+<%= render @article.comments %>
 
 <h2>Add a comment:</h2>
-<%# build a nested route like /article/1/comments %>
-<%= form_with model: [ @article, @article.comments.build ] do |form| %>
-  <p>
-    <%= form.label :commenter %><br>
-    <%= form.text_field :commenter %>
-  </p>
-  <p>
-    <%= form.label :body %><br>
-    <%= form.text_area :body %>
-  </p>
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+<%= render 'comments/form' %>
