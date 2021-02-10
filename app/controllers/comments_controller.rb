@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
 
   # authenticate only while trying to delete a comment
-  http_basic_authenticate_with name: "randomUser", password: "randomPassword", only: :destroy
+  # http_basic_authenticate_with name: "randomUser", password: "randomPassword", only: :destroy
 
   def create
     @article = Article.find(params[:article_id])

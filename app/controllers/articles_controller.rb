@@ -1,7 +1,9 @@
 class ArticlesController < ApplicationController
 
   # basic authentication, do for all methods except index and show
-  http_basic_authenticate_with name: "randomUser", password: "randomPassword", except: [:index, :show]
+  # http_basic_authenticate_with name: "randomUser", password: "randomPassword", except: [:index, :show]
+
+  skip_before_action :authorized, only: [:index, :show]
 
   def index
     @articles = Article.all
