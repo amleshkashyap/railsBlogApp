@@ -1,0 +1,10 @@
+<h1>Feeds</h1>
+<h5><%= link_to "Home", root_path %></h5>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, article.link %> - Published <%= article.published_at %>.
+    </li>
+  <% end %>
+</ul>

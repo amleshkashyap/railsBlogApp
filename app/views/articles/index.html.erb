@@ -10,4 +10,5 @@ Our blog has <%= Article.public_count %> public articles and counting!
   <% end %>
 </ul>
 <%# do bin/rails routes - new_article_path corresponds to the path for GET call for new_article %>
-<%= link_to "New Article", new_article_path %>
+<%= link_to "New Article", new_article_path %><br>
+<%= link_to "Feeds", feeds_path %>

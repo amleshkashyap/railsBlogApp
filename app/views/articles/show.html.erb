@@ -1,4 +1,3 @@
-<h5><%= link_to "Home", root_path %></h5>
 <h1><%= @article.title %></h1>
 
 <p><%= @article.body %></p>
@@ -9,7 +8,9 @@
   <li><%= link_to "Delete", article_path(@article),
 		  # calls the DELETE method, uses unobtrusive javascript (UJS) to have a popup asking for confirmation
                   method: :delete,
-                  data: { confirm: "Are you sure?" } %></li>
+		  data: { confirm: "Are you sure?" } %></li>
+  <li><%= link_to "Home", root_path %></li>
+  <li><%= link_to "Feeds", feeds_path %></li>
 </ul>
 
 <%# render the partial collection of comments in _comment.html.erb once for each comment in article.comments instead of looping through the article.comments

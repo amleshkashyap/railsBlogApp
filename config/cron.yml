@@ -1,0 +1,4 @@
+perform:
+  cron: "0 23 * * *"
+  class: "ScheduledWorker"
+  queue: low
