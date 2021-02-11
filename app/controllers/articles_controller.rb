@@ -25,6 +25,7 @@ class ArticlesController < ApplicationController
 
     # create the entry in DB
     if @article.save
+      FeedInjectorWorker.perform_async(article_params[:title], "articles/" + @article.id.to_s, Time.now, 'create')
       # Use redirect_to after DB mutations to avoid repeating mutations - it makes a new request
       redirect_to @article
     else
@@ -34,11 +35,11 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
+    @article = Article.find_by(id: params[:id], user_id: params[:user_id])
   end
 
   def update
-    @article = Article.find(params[:id])
+    @article = Article.find_by(id: params[:id], user_id: params[:user_id])
 
     # actual call to update
     if @article.update(article_params)
@@ -52,6 +53,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
     # delete the article
     @article.destroy
+    FeedInjectorWorker.perform_async(nil, "articles/" + params[:id], nil, 'delete')
 
     redirect_to root_path
   end
@@ -62,6 +64,6 @@ class ArticlesController < ApplicationController
       # mandatory for the form data captured in the Hash "params" to have a field article, which in turn should have title and body only
       # these are also accessible directly using params[:article][:title] and params[:article][:body]
       # "bin/rails generate migration AddStatusToArticles status:string" => create this migration to later add a new field to an existing model
-      params.require(:article).permit(:title, :body, :status)
+      params.require(:article).permit(:title, :body, :status).merge!(user_id: current_user.id)
     end
 end

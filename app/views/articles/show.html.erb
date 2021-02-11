@@ -4,11 +4,13 @@
 
 <ul>
   <%# do bin/rails routes - edit_article_path corresponds to the path for GET call for edit_article %>
+  <% if current_user && (@article.user_id == current_user.id) %>
   <li><%= link_to "Edit", edit_article_path(@article) %></li>
   <li><%= link_to "Delete", article_path(@article),
 		  # calls the DELETE method, uses unobtrusive javascript (UJS) to have a popup asking for confirmation
                   method: :delete,
 		  data: { confirm: "Are you sure?" } %></li>
+  <% end %>
   <li><%= link_to "Home", root_path %></li>
   <li><%= link_to "Feeds", feeds_path %></li>
 </ul>
@@ -21,5 +23,7 @@
 <h2>Comments</h2>
 <%= render @article.comments %>
 
-<h2>Add a comment:</h2>
-<%= render 'comments/form' %>
+<% if logged_in? %>
+  <h2>Add a comment:</h2>
+  <%= render 'comments/form' %>
+<% end %>

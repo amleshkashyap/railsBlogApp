@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
+  get 'logout', to: 'sessions#logout'
   get 'welcome', to: 'sessions#welcome'
   get 'feeds', to: 'feeds#index'
 
